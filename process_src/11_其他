@@ -1,0 +1,20 @@
+# 创建./ava_finally/annotations/included_timestamps.txt，写入时间戳号，视频片段的middle为[02,08]共7帧
+$ vim ./ava_finally/annotations/included_timestamps.txt
+    02
+    03
+    04
+    05
+    06
+    07
+    08
+
+# 创建./ava_finally/annotations/action_list.pbtxt，写入行为列表，视频共两种行为，注意有缩进！
+$ vim ./ava_finally/annotations/action_list.pbtxt
+item {
+  name: "drink(left)"
+  id: 1
+}
+  item {
+  name: "drink(right)"
+id: 2
+}

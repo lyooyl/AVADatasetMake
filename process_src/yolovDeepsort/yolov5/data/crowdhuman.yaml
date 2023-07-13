@@ -1,0 +1,10 @@
+train: /user-data/crowdedHuman/images/train
+val: /user-data/crowdedHuman/images/val
+#test: test.txt
+
+#number of classes
+nc: 2
+
+# class names
+names: ['head', 'Vperson']
+
