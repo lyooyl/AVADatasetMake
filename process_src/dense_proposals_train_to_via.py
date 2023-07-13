@@ -41,7 +41,8 @@ for i in info:
     else:
         # 进入下一个视频文件
         dirname = temp_dirname
-        len_x[dirname] = 1
+        # len_x[dirname] = 1
+        len_x[dirname] = -1         # pkl中为9帧，middle文件夹有7帧，故帧数初始值设为-1，而不是1
 
 dirname = ''
 for i in info:
