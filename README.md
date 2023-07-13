@@ -68,7 +68,7 @@ frames -- rawframes
 
 ## 11、其他文件创建
 
-vim action_list.pbtxt # 写入行为列表，例中视频共两种行为，注意有缩进！
+vim ./ava_finally/annotations/action_list.pbtxt # 写入行为列表，例中视频共两种行为，注意有缩进！
 ```text
 item {
   name: "drink(left)"
@@ -80,7 +80,7 @@ id: 2
 }
 ```
 
-vim included_timestamps.txt  # 写入时间戳号，视频片段的middle为[02,08]共7帧(没用到)
+vim ./ava_finally/annotations/included_timestamps.txt  # 写入时间戳号，视频片段的middle为[02,08]共7帧(没用到)
 ```text
 02
 03
