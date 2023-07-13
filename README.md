@@ -5,7 +5,7 @@ https://github.com/Whiffe/Custom-ava-dataset_Custom-Spatio-Temporally-Action-Vid
 （2）将输入视频文件放入./process_file/videos/下
 ```
 
-## 【01】、电影剪辑片段
+## 01、电影剪辑片段
 video -- videos_crop
 - 修改sh脚本，使输出片段为11s、fps30、n.mp4命名
 ```shell
@@ -18,7 +18,7 @@ videos_crop -- frames(全部帧)
 ./process_src/02_cut_frames.sh 
 ```
 
-## 【03】、缩减帧
+## 03、缩减帧
 frames -- choose_frames_all & choose_frames -- choose_frames_middle
 - 检查sh中的python路径
 ```shell
@@ -37,14 +37,14 @@ yolov5_det/labels -- dense_proposals_train.pkl & dense_proposals_train_deepsort.
 ./process_src/05_pkl_gen.sh
 ```
 
-## 【06】、via标注生成
+## 06、via标注生成
 dense_proposals_train.pkl & choose_frames_middle -- _proposal.json
 - 修改./process_src/dense_proposals_train_to_via.py的第20行属性字典
 ```shell
 ./process_src/06_via_gen.sh	
 ```
 	
-## 【07】、via软件标注action
+## 07、via软件标注action
 _proposal_s.json -- _finish.json
 - 下载打开[VIA软件](https://www.robots.ox.ac.uk/~vgg/software/via/downloads/via3/via-3.0.11.zip )，进行行为标注...
 
@@ -66,7 +66,7 @@ frames -- rawframes
 ./process_src/10_rawframes_gen.sh
 ```
 
-## 【11】、其他文件创建
+## 11、其他文件创建
 
 vim action_list.pbtxt # 写入行为列表，例中视频共两种行为，注意有缩进！
 ```text
