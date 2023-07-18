@@ -77,7 +77,7 @@ item {
 }
   item {
   name: "drink(right)"
-id: 2
+  id: 2
 }
 ```
 
