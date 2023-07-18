@@ -47,6 +47,7 @@ dense_proposals_train.pkl & choose_frames_middle -- _proposal.json
 ## 07、via软件标注action
 _proposal_s.json -- _finish.json
 - 下载打开[VIA软件](https://www.robots.ox.ac.uk/~vgg/software/via/downloads/via3/via-3.0.11.zip )，进行行为标注...
+- 打开*_proposal_s.json标注文件，标注行为信息，另存为*_finish.json
 
 ## 08、via转csv
 _finish.json -- train_without_personID.csv
