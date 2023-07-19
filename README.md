@@ -134,7 +134,7 @@ python demo/demo_spatiotemporal_det.py \
 	--output-fps 6 \
 	--label-map ./tools/data/ava/label_map_Custom.txt 
 ```
-- 日志json分析
+- 日志[json分析](https://github.com/lyooyl/AVADatasetMake/blob/main/process_src/my_analyze_logs.py)
 ```shell
 python my_analyze_logs.py \
 	--json_log ../work_dirs/slowfast_det_rec_sport-cls4/20230718_111358/vis_data/scalars.json.json
