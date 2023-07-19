@@ -107,3 +107,10 @@ vim ./ava_finally/annotations/included_timestamps.txt  # 写入时间戳号，�
 	│   │   |   ├── dense_proposals_train.pkl
 	│   │   |   ├── [dense_proposals_val.pkl]
 	│   │   |   ├── action_list.pbtxt
+
+ ## 数据集训练
+ - 下载mmaction2
+ ```shell
+ git clone https://github.com/open-mmlab/mmaction2.git
+```
+- 修改[configs文件](https://github.com/open-mmlab/mmaction2/blob/main/configs/detection/slowfast/slowfast_kinetics400-pretrained-r50_8xb6-8x8x1-cosine-10e_ava22-rgb.py)。这是一个修改后[配置用例DEMO](https://github.com/lyooyl/AVADatasetMake/blob/main/process_src/slowfast_kinetics400-pretrained-r50_ava22-rgb-sport.py)。
