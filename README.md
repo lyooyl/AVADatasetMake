@@ -114,3 +114,29 @@ vim ./ava_finally/annotations/included_timestamps.txt  # 写入时间戳号，�
  git clone https://github.com/open-mmlab/mmaction2.git
 ```
 - 修改[configs文件](https://github.com/open-mmlab/mmaction2/blob/main/configs/detection/slowfast/slowfast_kinetics400-pretrained-r50_8xb6-8x8x1-cosine-10e_ava22-rgb.py)。这是一个修改后[配置用例DEMO](https://github.com/lyooyl/AVADatasetMake/blob/main/process_src/slowfast_kinetics400-pretrained-r50_ava22-rgb-sport.py)。
+- 训练示例
+```shell
+python tools/train.py ./my_configs/slowfast_kinetics400-pretrained-r50_ava22-rgb-sport.py
+```
+- 推理示例
+```shell
+python demo/demo_spatiotemporal_det.py \
+	--config ../work_dirs/slowfast_det_rec_sport-cls4/slowfast_kinetics400-pretrained-r50_8xb6-8x8x1-cosine-10e_ava22-rgb-sport.py \
+	--checkpoint ../work_dirs/slowfast_det_rec_sport-cls4/best_mAP_overall_epoch_36.pth \
+	--det-config demo/demo_configs/faster-rcnn_r50_fpn_2x_coco_infer.py \
+	--det-checkpoint checkpoints/faster_rcnn_r50_fpn_2x_coco_bbox_mAP-0.384_20200504_210434-a5d8aa15.pth  \
+	--video ../AVADatasetMake-sport/process_file/videos/bask02.mp4 \
+	--out-filename ./demo/testresults/bask02-infer.mp4 \
+	--det-score-thr 0.5 \
+	--action-score-thr 0.5 \
+	--predict-stepsize 4 \
+	--output-stepsize 4 \
+	--output-fps 6 \
+	--label-map ./tools/data/ava/label_map_Custom.txt 
+```
+- 日志json分析
+```shell
+python my_analyze_logs.py \
+	--json_log ../work_dirs/slowfast_det_rec_sport-cls4/20230718_111358/vis_data/scalars.json.json
+	--keys 'mAP/overall'
+```
