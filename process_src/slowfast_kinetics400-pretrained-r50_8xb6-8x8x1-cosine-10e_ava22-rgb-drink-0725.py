@@ -2,9 +2,9 @@ default_scope = 'mmaction'
 default_hooks = dict(
     runtime_info=dict(type='RuntimeInfoHook'),
     timer=dict(type='IterTimerHook'),
-    logger=dict(type='LoggerHook', interval=20, ignore_last=False),
+    logger=dict(type='LoggerHook', interval=10, ignore_last=False),
     param_scheduler=dict(type='ParamSchedulerHook'),
-    checkpoint=dict(type='CheckpointHook', interval=4, save_best='auto'),
+    checkpoint=dict(type='CheckpointHook', interval=1, save_best='auto'),
     sampler_seed=dict(type='DistSamplerSeedHook'),
     sync_buffers=dict(type='SyncBuffersHook'))
 env_cfg = dict(
@@ -22,8 +22,8 @@ resume = False
 # url = 'https://download.openmmlab.com/mmaction/recognition/slowfast/slowfast_r50_8x8x1_256e_kinetics400_rgb/slowfast_r50_8x8x1_256e_kinetics400_rgb_20200716-73547d2b.pth'
 # num_classes = 8
 # custom_classes = [1, 2, 3, 4, 5, 6, 7]
-num_classes = 5     # num_class + 1
-custom_classes = [1, 2, 3, 4]
+num_classes = 3
+custom_classes = [1, 2]
 model = dict(
     type='FastRCNN',
     _scope_='mmdet',
@@ -72,7 +72,7 @@ model = dict(
             in_channels=2304,
             # num_classes=81,
             num_classes=num_classes,
-            topk=(1, 3),        # 两类topk=1即可，大于5类按默认topk=(3, 5)
+            topk=1,        # 两类topk=1即可，大于5类按默认topk=(3, 5)
 
             multilabel=True,
             dropout_ratio=0.5)),
@@ -98,8 +98,10 @@ model = dict(
     test_cfg=dict(rcnn=None))
 
 dataset_type = 'AVADataset'
-data_root = '../AVADatasetMake-sport/ava_finally/rawframes'         # 生成的视频帧图
-anno_root = '../AVADatasetMake-sport/ava_finally/annotations'
+# data_root = 'data/ava_Custom/rawframes'                                            # 生成的视频帧图
+# anno_root = 'data/ava_Custom/annotations'
+data_root = '../AVADatasetMake-drinkWater/ava_finally/rawframes'
+anno_root = '../AVADatasetMake-drinkWater/ava_finally/annotations'
 
 ann_file_train = f'{anno_root}/train.csv'
 ann_file_val = f'{anno_root}/train.csv'
@@ -115,17 +117,19 @@ proposal_file_val = f'{anno_root}/dense_proposals_train.pkl'
 file_client_args = dict(io_backend='disk')
 
 train_pipeline = [
-    dict(type='SampleAVAFrames', clip_len=32, frame_interval=2),
+    # clip_len：输入使用多少帧的片段，对应到输入数据H/NCTHW
+    # frame_ingerval：输入片段的帧间隔
+    dict(type='SampleAVAFrames', clip_len=32, frame_interval=1),
     dict(type='RawFrameDecode', io_backend='disk'),
     dict(type='RandomRescale', scale_range=(256, 320)),
     dict(type='RandomCrop', size=256),
-    dict(type='Flip', flip_ratio=0.5),
+    # dict(type='Flip', flip_ratio=0.5),
     dict(type='FormatShape', input_format='NCTHW', collapse=True),
     dict(type='PackActionInputs')
 ]
 val_pipeline = [
     dict(
-        type='SampleAVAFrames', clip_len=32, frame_interval=2, test_mode=True),
+        type='SampleAVAFrames', clip_len=32, frame_interval=1, test_mode=True),
     dict(type='RawFrameDecode', io_backend='disk'),
     dict(type='Resize', scale=(-1, 256)),
     dict(type='FormatShape', input_format='NCTHW', collapse=True),
@@ -146,7 +150,8 @@ train_dataloader = dict(
         data_prefix=dict(img=data_root),
         # 自定义类别（标签、数目）
         custom_classes=custom_classes,
-        num_classes=num_classes
+        num_classes=num_classes,
+        start_index=1
         )
     )
 val_dataloader = dict(
@@ -165,6 +170,8 @@ val_dataloader = dict(
         # 自定义类别（标签、数目）
         custom_classes=custom_classes,
         num_classes=num_classes,
+        start_index=1,
+
         test_mode=True))
 test_dataloader = val_dataloader
 
@@ -180,7 +187,7 @@ val_evaluator = dict(
 test_evaluator = val_evaluator
 
 train_cfg = dict(
-    type='EpochBasedTrainLoop', max_epochs=60, val_begin=1, val_interval=4)
+    type='EpochBasedTrainLoop', max_epochs=12, val_begin=1, val_interval=1)
 val_cfg = dict(type='ValLoop')
 test_cfg = dict(type='TestLoop')
 param_scheduler = [
@@ -201,9 +208,9 @@ param_scheduler = [
         convert_to_iter_based=True)
 ]
 optim_wrapper = dict(
-    optimizer=dict(type='SGD', lr=0.075, momentum=0.9, weight_decay=1e-05),
+    optimizer=dict(type='SGD', lr=0.001, momentum=0.9, weight_decay=1e-05),
     clip_grad=dict(max_norm=40, norm_type=2))
 auto_scale_lr = dict(enable=False, base_batch_size=48)
 launcher = 'none'
-work_dir = '../work_dirs/slowfast_det_rec_sport-cls4'
+work_dir = '../work_dirs/slowfast_det_rec_drinkWater'
 randomness = dict(seed=None, diff_rank_seed=False, deterministic=False)
